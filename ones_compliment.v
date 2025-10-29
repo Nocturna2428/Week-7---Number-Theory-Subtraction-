@@ -1,78 +1,70 @@
 module ones_compliment(
-input [3:0] A, B,
+        input [3:0] A, [3:0] B,
 output [3:0] Y
 );
 
 wire [3:0] APlusB;
-wire [3:0] carry;
 wire around;
-wire [3:0] secondcarry;
 
-//assign notB = ~B; // One’s complement of B
 
-//wire c1, c2, c3, c4;
-full_adder Afa0_ista(
+full_adder bit0_ista(
         .A(A[0]),
         .B(B[0]),
         .C(0), // Fix to zero
         .Y(APlusB[0]),
-        .cout(carry[0])
     );
-    
-full_adder Afa1_ista(
+full_adder bit1_inter(
         .A(A[1]),
         .B(B[1]),
-        .C(carry[0]), // Fix to zero
+        .Cin(bit0_inter.Cout),
         .Y(APlusB[1]),
-        .cout(carry[1])
     );
-    
-full_adder Afa2_ista(
+
+full_adder bit1_inter(
         .A(A[2]),
         .B(B[2]),
-        .C(carry[1]), // Fix to zero
+        .Cin(bit1_inter.Cout),
         .Y(APlusB[2]),
-        .cout(carry[2])
-    );
-    
-full_adder Afa3_ista(
+    );        
+
+full_adder bit1_inter(
         .A(A[3]),
         .B(B[3]),
-        .C(carry[2]), // Fix to zero
+        .Cin(bit2_inter.Cout),
         .Y(APlusB[3]),
-        .cout(carry[3])
-    );
-    
-full_adder Afa4_ista(
+         .Cout(around)
+    );  
+
+full_adder bit0(
         .A(APlusB[0]),
         .B(0),
-        .C(around), // Fix to zero
-        .Y(Y[0]),
-        .cout(secondcarry[0])
+        .Cin(around),
+        .Y(Y[0])
     );
-
-full_adder Afa5_ista(
+    
+full_adder bit1(
         .A(APlusB[1]),
         .B(0),
-        .C(secondcarry[0]), // Fix to zero
-        .Y(Y[1]),
-        .cout(secondcarry[1])
-    ); 
-
-full_adder Afa6_ista(
-        .A(APlusB[2]),
-        .B(0),
-        .C(secondcarry[1]), // Fix to zero
-        .Y(Y[2]),
-        .cout(secondcarry[2])
-    ); 
+        .Cin(bit0.Cout),
+        .Y(Y[1])
+    );
     
-full_adder Afa7_ista(
+full_adder bit2(
         .A(APlusB[2]),
         .B(0),
-        .C(secondcarry[3]), // Fix to zero
-        .Y(Y[3]),
-        .cout(0)
-    ); 
+        .Cin(bit1.Cout),
+        .Y(Y[2])
+    );
+    
+full_adder bit3(
+        .A(APlusB[3]),
+        .B(0),
+        .Cin(bit2.Cout),
+        .Y(Y[3])
+    );
+ 
+   
+
+
 
 endmodule
