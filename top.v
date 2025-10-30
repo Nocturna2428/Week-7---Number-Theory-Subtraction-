@@ -24,4 +24,3 @@ twos_compliment twos_comp_inst(
 
 
 endmodule
-
