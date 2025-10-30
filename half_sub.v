@@ -1,9 +1,10 @@
-module half_sub(
-input A, B,
-output Y, Borrow
-
+module half_sub (
+    input A, B,
+    output Y, Borrow
 );
-assign Y = A ^ B; // Difference
-assign Borrow = (~A) & B; // Borrow logic
+
+    assign Y = A ^ B;
+    assign Borrow = ~A & B;
 
 endmodule
+
